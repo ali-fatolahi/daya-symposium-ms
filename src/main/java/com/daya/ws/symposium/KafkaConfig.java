@@ -9,10 +9,10 @@ import org.springframework.kafka.config.TopicBuilder;
 
 @Configuration
 public class KafkaConfig {
-  
+
   @Bean
   NewTopic createTopic() {
-    return TopicBuilder.name("daya-symposium-thread")
+    return TopicBuilder.name("daya-symposium-threads")
       .partitions(3)
       .replicas(3)
       .configs(Map.of("min.insync.replicas", "2"))
