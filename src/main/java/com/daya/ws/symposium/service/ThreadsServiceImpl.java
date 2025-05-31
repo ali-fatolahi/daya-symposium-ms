@@ -34,7 +34,7 @@ public class ThreadsServiceImpl implements ThreadsService {
       createNewThreadRestModel.getAwardValue());
     
     CompletableFuture<SendResult<String, ThreadCreatedEvent>> future =
-     kafkaTemplate.send("daya-symposium-threads", threadId, threadCreatedEvent);
+     kafkaTemplate.send("topic2", threadId, threadCreatedEvent);
     future.whenComplete((result, exception) -> {
       if (exception != null) {
         LOGGER.error("Thread created event failed to publish", exception);
