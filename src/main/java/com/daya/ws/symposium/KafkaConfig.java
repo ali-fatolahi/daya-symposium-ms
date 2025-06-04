@@ -13,7 +13,7 @@ import org.springframework.kafka.core.DefaultKafkaProducerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
 
-import com.daya.ws.symposium.service.ThreadCreatedEvent;
+import com.daya.symposium.core.ThreadCreatedEvent;
 
 @Configuration
 public class KafkaConfig {
