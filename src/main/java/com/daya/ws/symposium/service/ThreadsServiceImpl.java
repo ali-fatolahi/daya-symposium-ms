@@ -4,6 +4,7 @@ import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
+import org.apache.kafka.clients.producer.ProducerRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -33,9 +34,14 @@ public class ThreadsServiceImpl implements ThreadsService {
       createNewThreadRestModel.getBody(),
       createNewThreadRestModel.getTotalAwards(),
       createNewThreadRestModel.getAwardValue());
+
+    final ProducerRecord<String, ThreadCreatedEvent> record =
+      new ProducerRecord<String,ThreadCreatedEvent>(
+        "daya-symposium-threads", threadId, threadCreatedEvent);
+    record.headers().add("messageId", UUID.randomUUID().toString().getBytes()); 
     
     CompletableFuture<SendResult<String, ThreadCreatedEvent>> future =
-     kafkaTemplate.send("topic2", threadId, threadCreatedEvent);
+     kafkaTemplate.send(record);
     future.whenComplete((result, exception) -> {
       if (exception != null) {
         LOGGER.error("Thread created event failed to publish", exception);
