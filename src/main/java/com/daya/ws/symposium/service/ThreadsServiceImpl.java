@@ -36,7 +36,7 @@ public class ThreadsServiceImpl implements ThreadsService {
       createNewThreadRestModel.getAwardValue());
 
     final ProducerRecord<String, ThreadCreatedEvent> record =
-      new ProducerRecord<String,ThreadCreatedEvent>(
+      new ProducerRecord<String, ThreadCreatedEvent>(
         "daya-symposium-threads", threadId, threadCreatedEvent);
     record.headers().add("messageId", UUID.randomUUID().toString().getBytes()); 
     
@@ -56,6 +56,8 @@ public class ThreadsServiceImpl implements ThreadsService {
     // blocking until publish is done
     try {
       LOGGER.info("About to publishing a ThreadCreatedEvent ...");
+
+      LOGGER.info("KafkaTemplate ProducerFactory config: {}", kafkaTemplate.getProducerFactory().getConfigurationProperties());
 
       SendResult<String, ThreadCreatedEvent> result =
        kafkaTemplate.send("daya-symposium-threads", threadId, threadCreatedEvent).get();
